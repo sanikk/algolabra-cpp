@@ -1,9 +1,6 @@
-// #include "filereader.h"
 #include "scenario_service.h"
 #include <iostream>
-// #include <vector>
-
-int funcone() { return 1; }
+#include <ostream>
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
@@ -12,8 +9,13 @@ int main(int argc, char *argv[]) {
               << std::endl;
     return 1;
   }
-  // std::vector<std::string> citymap = read_map(argv[1], 4);
   Scenarios::ScenarioService ss(argv[1]);
-  // std::cout << citymap.size() << std::endl;
+  if (argc > 2) {
+
+    Scenarios::Scenario scen = ss.get_scenario(3, 2);
+    std::cout << scen.id << " start:" << scen.start_x << "," << scen.start_y
+              << ", goal:" << scen.goal_x << "," << scen.goal_y
+              << ", cost:" << scen.cost << std::endl;
+  }
   return 0;
 }
