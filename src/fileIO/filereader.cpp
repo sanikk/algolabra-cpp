@@ -1,5 +1,5 @@
 #include "filereader.h"
-#include "scenario_service.h"
+#include "../service/scenario_service.h"
 #include <fstream>
 #include <iostream>
 #include <limits>
@@ -11,7 +11,7 @@ std::ifstream read_file(const std::string &filename) {
   std::ifstream f(filename);
 
   if (!f) {
-    std::cout << "error reading " << filename << '\n';
+    std::cerr << "error reading " << filename << '\n';
     throw std::invalid_argument("error reading file");
   }
   return f;

@@ -5,7 +5,7 @@
 Searches::SearchService::SearchService() {}
 
 Searches::SearchService::SearchService(
-    Scenarios::ScenarioService scenario_service)
+    const Scenarios::ScenarioService &scenario_service)
     : scenario_service(scenario_service) {};
 
 void Searches::SearchService::run_search(int index) {
@@ -17,4 +17,3 @@ void Searches::SearchService::run_search(int index) {
 void Searches::SearchService::run_search(int bucket, int index) {
   Searches::SearchService::run_search(10 * bucket + index);
 }
-
