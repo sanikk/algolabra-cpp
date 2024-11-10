@@ -1,5 +1,5 @@
-#include "service/scenario_service.h"
-#include "service/search_service.h"
+#include "scenario_service.h"
+#include "search_service.h"
 #include <iostream>
 #include <ostream>
 #include <string>
