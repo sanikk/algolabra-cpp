@@ -1,10 +1,10 @@
-#include "common_search_utils.h"
+#include "common_search.h"
 #include <cmath>
 #include <string>
 #include <vector>
+#include <array>
 
-
-namespace CommonSearchUtils {
+namespace CommonSearch {
 
 double heuristics(int nodex, int nodey, int goalx, int goaly) {
   double abs_dx = abs(nodex - goalx);
@@ -14,6 +14,13 @@ double heuristics(int nodex, int nodey, int goalx, int goaly) {
   return static_cast<double>(abs_dx + abs_dy + DIFF * abs_dy);
 }
 
-void children(int x, int y, std::vector<std::string> citymap) {}
+double heuristics(Node node, Node goal) {
+  return heuristics(node.x, node.y, goal.x, goal.y);
+}
+
+std::array<Node, 8>  children(int x, int y, const std::vector<std::string> &citymap) {
+  std::array<Node, 8> returnable;
+  return returnable;
+}
 
 }

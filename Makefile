@@ -1,16 +1,16 @@
 CXX = g++
 
-INCLUDE_DIR = src/common_search_utils
+INCLUDE_DIR = src/common_search
 
 CXXFLAGS = -Wall -I$(INCLUDE_DIR) -std=c++17
 # CXXFLAGS = -c -Wall
+# g++ -c Wall -Isrc/common_search -std=c++17
 
+build: common_search.o filereader.o scenario_service.o search_service.o main.o
+	$(CXX) $(CXXFLAGS) common_search.o filereader.o scenario_service.o search_service.o main.o -o eksekute
 
-build: common_search_utils.o filereader.o scenario_service.o search_service.o main.o
-	$(CXX) $(CXXFLAGS) common_search_utils.o filereader.o scenario_service.o search_service.o main.o -o eksekute
-
-common_search_utils.o: src/common_search_utils/common_search_utils.cpp src/common_search_utils/common_search_utils.h
-	$(CXX) -c $(CXXFLAGS) src/common_search_utils/common_search_utils.cpp
+common_search.o: src/common_search/common_search.cpp src/common_search/common_search.h
+	$(CXX) -c $(CXXFLAGS) src/common_search/common_search.cpp
 
 filereader.o: src/fileIO/filereader.cpp src/fileIO/filereader.h
 	$(CXX) -c $(CXXFLAGS) src/fileIO/filereader.cpp
@@ -34,8 +34,3 @@ endif
 # Clean up
 clean:
 	rm -f $(TARGET)
-
-#
-# g++ -Wall -c -Isrc/common_search_utils -std=c++14  -Lsrc/lib -lgtest_main tests/heuristics_test.cpp
-# -Lsrc/lib -lgtest_main tests/heuristics_test.cpp -o build/heuristics_test
-# -Lsrc/lib -lgtest_main tests/heuristics_test.cpp -o build/heuristics_test
