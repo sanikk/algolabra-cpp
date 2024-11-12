@@ -15,10 +15,10 @@ filereader.o: src/fileIO/filereader.cpp src/fileIO/filereader.h
 common_search.o: src/common_search/common_search.cpp src/common_search/common_search.h
 	$(CXX) -c $(CXXFLAGS) src/common_search/common_search.cpp
 
-astar_search.o: src/astar/astar_search.cpp src/astar/astar_search.h
+astar_search.o: src/astar/astar_search.cpp src/astar/astar_search.h src/common_search/common_search.h
 	$(CXX) -c $(CXXFLAGS) src/astar/astar_search.cpp
 
-scenario_service.o: src/scenario_service.cpp
+scenario_service.o: src/scenario_service.cpp src/fileIO/filereader.cpp src/fileIO/filereader.h
 	$(CXX) -c $(CXXFLAGS) src/scenario_service.cpp
 
 search_service.o: src/search_service.cpp

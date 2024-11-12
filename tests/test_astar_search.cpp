@@ -5,6 +5,6 @@
 namespace {
 
 TEST(getOne,returnsOne ) {
-  EXPECT_EQ(AstarSearch::get_one(), 1);
+  EXPECT_EQ(get_one(), 1);
 }
 }// double heuristics(int nodex, int nodey, int goalx, int goaly, double diff) {

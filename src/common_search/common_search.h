@@ -6,6 +6,9 @@
 
 namespace CommonSearch {
  
+  const double DIAG = std::sqrt(2.0);
+  const double DIFF = std::sqrt(2.0) - 2.0;
+  
   struct Node {
     double cost;
     int x, y;
@@ -21,8 +24,6 @@ namespace CommonSearch {
     friend bool operator>(const Node& l, const Node& r) {return l.cost > r.cost;}
     };
 
-  constexpr double DIAG = sqrt(2.0);
-  constexpr double DIFF = DIAG - 2.0;
 
   double heuristics(int nodex, int nodey, int goalx, int goaly);
   double heuristics(Node node, Node goal);
