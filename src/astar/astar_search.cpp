@@ -2,12 +2,11 @@
 
 #include <queue>
 #include <vector>
-#include <unordered_map>
 
 #include <string>
 #include <iostream>
 
-namespace CommonSearch::AstarSearch {
+namespace AstarSearch {
   int get_one() {
     return 1;
   }
@@ -26,11 +25,12 @@ namespace CommonSearch::AstarSearch {
 
     int map_size = citymap.size();
     int gscores[map_size][map_size];
-    //int camefrom[mapsize][mapsize];
+    std::pair<int, int> camefrom[map_size][map_size];
+    std::pair<int,int> nullpair{-1,-1};
     for (int i=0;i < map_size;i++) {
       for (int j=0;j < map_size;j++) {
         gscores[i][j] = -1;
-        // camefrom[i][j] = 0;
+        camefrom[i][j] = nullpair;
       }
     }
     gscores[starty][startx] = 0;
@@ -42,11 +42,17 @@ namespace CommonSearch::AstarSearch {
         std::cout << "goal found with cost " << current.cost << std::endl;
         return current.cost;
       }
-      for (CommonSearch::Node child : children(current.x, current.y, citymap)) {
+
+      std::vector<CommonSearch::Node> nodes;
+      CommonSearch::children(current, citymap, nodes);
+
+      for (CommonSearch::Node& child : nodes) {
         double tentative_gscore = gscores[current.y][current.x] + child.cost;
         if (gscores[child.y][child.x] == -1 || tentative_gscore  < gscores[child.y][child.x]) {
           gscores[child.y][child.x] = tentative_gscore; 
-          // camefrom[child.y][child.x] = current;
+          camefrom[child.y][child.x] = std::make_pair(current.x, current.y);
+          child.cost = tentative_gscore + CommonSearch::heuristics(child, goal_node);
+          heap.push(child);
         }
       }
     }
@@ -55,29 +61,3 @@ namespace CommonSearch::AstarSearch {
 
 }
 }//namespace
-//    # init
-//    map_size = len(citymap)
-//    heap = []
-//    diff = diag_cost - Decimal('1')
-//    heappush(heap, (heuristics(*start, *goal, diff), start))
-//    came_from = {start: 0}
-//    g_scores = {start:0}
-//
-//    while heap:
-//        estimate, current = heappop(heap)
-//        if current == goal:
-//            final_cost = g_scores[current]
-//            rounded = getcontext().flags[Rounded]
-//            inexact = getcontext().flags[Inexact]
-//
-//            return final_cost, reconstruct_path(start, goal, came_from), rounded, inexact
-//
-//        for x, y, cost in children(*current, citymap, diag_cost, map_size):
-//            child = x, y
-//            tentative_gscore = g_scores[current] + cost
-//            if tentative_gscore < g_scores.get(child, 10000000):
-//                came_from[child] = current
-//                g_scores[child] = tentative_gscore
-//
-//                fscore = tentative_gscore + heuristics(x, y, *goal, diff)
-//                heappush(heap, (fscore, child))

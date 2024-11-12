@@ -21,6 +21,7 @@ public:
   ScenarioService(const std::string filename, double diag_cost = 1.414);
   Scenario get_scenario(int index);
   Scenario get_scenario(int bucket, int index);
+  std::vector<std::string> get_map();
 
 private:
   std::string filename{""};
