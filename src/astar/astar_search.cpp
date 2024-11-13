@@ -23,27 +23,28 @@ double astar_search(int startx, int starty, int goalx, int goaly,
   heap.push(start_node); 
 
   int map_size = citymap.size();
-  int gscores[map_size][map_size];
+  double gscores[map_size][map_size];
   std::pair<int, int> camefrom[map_size][map_size];
   std::pair<int,int> nullpair{-1,-1};
   for (int i=0;i < map_size;i++) {
     for (int j=0;j < map_size;j++) {
-      gscores[i][j] = -1;
+      gscores[i][j] = -1.0;
       camefrom[i][j] = nullpair;
     }
   }
-  gscores[starty][startx] = 0;
+  gscores[starty][startx] = 0.0;
 
   while (!heap.empty()) {
     CommonSearch::Node current = heap.top(); 
     heap.pop();
+    // std::cout << "current: " << current.x << "," << current.y << std::endl;
     if (current == goal_node) {
       std::cout << "goal found with cost " << current.cost << std::endl;
       return current.cost;
     }
 
     std::vector<CommonSearch::Node> nodes;
-    CommonSearch::children(current, citymap, nodes);
+    CommonSearch::children(current.x, current.y, citymap, nodes);
 
     for (CommonSearch::Node& child : nodes) {
       double tentative_gscore = gscores[current.y][current.x] + child.cost;

@@ -1,4 +1,4 @@
-CXX = g++
+CXX = clang
 
 INCLUDE_DIR = src/common_search
 
