@@ -1,9 +1,10 @@
+#include "common_search.h"
 #include "astar_search.h"
 #include <gtest/gtest.h>
 
 namespace {
 
 TEST(getOne,returnsOne ) {
-  EXPECT_EQ(CommonSearch::AstarSearch::get_one(), 1);
+  EXPECT_EQ(get_one(), 1);
 }
 }// double heuristics(int nodex, int nodey, int goalx, int goaly, double diff) {

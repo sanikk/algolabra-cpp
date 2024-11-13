@@ -14,8 +14,10 @@ int main(int argc, char *argv[]) {
   Scenarios::ScenarioService scenario_service(argv[1]);
   Searches::SearchService search_service(scenario_service);
 
-  if (argc > 3) {
+  if (argc == 4) {
     search_service.run_search(std::stoi(argv[2]), std::stoi(argv[3]));
+  } else if (argc == 3) {
+    search_service.run_search(std::stoi(argv[2]));
   }
   return 0;
 }

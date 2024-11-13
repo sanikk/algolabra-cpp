@@ -51,19 +51,22 @@ std::vector<Scenarios::Scenario> read_scenarios(const std::string &filename) {
   if (f.peek() == 'v')
     f.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
+  int i = 0;
   while (getline(f, str)) {
     if (str.empty()) {
       continue;
     }
     std::istringstream iss(str);
     Scenarios::Scenario scenario;
-    iss >> scenario.id;
+    iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss >> scenario.start_x >> scenario.start_y >> scenario.goal_x >>
         scenario.goal_y >> scenario.cost;
+    scenario.id = i;
     scenarios.push_back(scenario);
+    i++;
   }
   return scenarios;
 }

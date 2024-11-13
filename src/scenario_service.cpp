@@ -28,4 +28,9 @@ Scenario ScenarioService::get_scenario(int index)
   }
   return scenarios[index];
 }
+
+
+std::vector<std::string> ScenarioService::get_map(){
+  return citymap;
+}
 } // namespace Scenarios
