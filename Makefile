@@ -1,4 +1,4 @@
-CXX = clang
+CXX = c++
 
 INCLUDE_DIR = src/common_search
 
@@ -32,8 +32,7 @@ ifneq ("$(wildcard gtest_Makefile)", "")
   include gtest_Makefile
 endif
 
-# include gtest_mf
-
 # Clean up
 clean:
-	rm -f *.o 
+	# rm -f *.o 
+	find . -type f -name '*.o' -delete
