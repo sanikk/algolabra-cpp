@@ -47,6 +47,6 @@ namespace CommonSearch {
   }};
 
   void children(int x, int y, const std::vector<std::string>& citymap, std::vector<Node>& node_list);
-  void children(int x, int y, const std::vector<std::string>& citymap, std::vector<std::pair<int, int>>& node_list);
+  void children(int x, int y, const std::vector<std::string>& citymap, std::vector<std::tuple<int, int, double>>& node_list);
   void children(Node node, const std::vector<std::string>& citymap, std::vector<Node>& node_list);
 } // namespace ends

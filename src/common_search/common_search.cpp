@@ -54,9 +54,7 @@ void children(int x, int y, const std::vector<std::string>& citymap, std::vector
     if (nx < 0 || nx >= map_size || ny < 0 || ny >= map_size || citymap[ny][nx] != '.') {
       continue;
     }
-    if (i % 2 == 0) {
-      node_list.emplace_back(nx, ny, cost);
-    } else {
+    if (i % 2 != 0) {
       int dx1 = x + std::get<0>(neighbor_offsets[i-1]);
       int dy1 = y + std::get<1>(neighbor_offsets[i-1]);
       if (dx1 < 0 || dx1 >= map_size || dy1 < 0 || dy1 >= map_size || citymap[dy1][dx1] != '.') {
@@ -67,8 +65,9 @@ void children(int x, int y, const std::vector<std::string>& citymap, std::vector
       if (dx2 < 0 || dx2 >= map_size || dy2 < 0 || dy2 >= map_size || citymap[dy2][dx2] != '.') {
         continue;
       }
-      node_list.emplace_back(nx, ny, cost);
     }
+
+    node_list.emplace_back(nx, ny, cost);  
   }
 }
 void children(Node node, const std::vector<std::string>& citymap, std::vector<Node>& node_list) {

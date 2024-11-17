@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -I$(INCLUDE_DIR) -std=c++17
 # CXXFLAGS = -c -Wall
 # g++ -c Wall -Isrc/common_search -std=c++17
 
-build: filereader.o common_search.o astar_search.o scenario_service.o search_service.o main.o
+build: filereader.o common_search.o astar_search.o fringe_search.o scenario_service.o search_service.o main.o
 	$(CXX) $(CXXFLAGS) common_search.o filereader.o astar_search.o scenario_service.o search_service.o main.o -o eksekute
 
 filereader.o: src/fileIO/filereader.cpp src/fileIO/filereader.h
@@ -17,6 +17,9 @@ common_search.o: src/common_search/common_search.cpp src/common_search/common_se
 
 astar_search.o: src/astar/astar_search.cpp src/astar/astar_search.h src/common_search/common_search.h
 	$(CXX) -c $(CXXFLAGS) src/astar/astar_search.cpp
+
+fringe_search.o: src/fringe/fringe_search.cpp src/fringe/fringe_search.h src/common_search/common_search.h
+	$(CXX) -c $(CXXFLAGS) src/fringe/fringe_search.cpp
 
 scenario_service.o: src/scenario_service.cpp src/fileIO/filereader.cpp src/fileIO/filereader.h
 	$(CXX) -c $(CXXFLAGS) src/scenario_service.cpp
