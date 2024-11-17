@@ -17,19 +17,21 @@ void show_help() {
 }
 
 int main(int argc, char *argv[]) {
-  if (argc > 2 && std::strcmp("run", argv[1]) == 0) {
+  if (argc > 2) {
     Scenarios::ScenarioService scenario_service(argv[2]);
     Searches::SearchService search_service(scenario_service);
-    if (argc == 5) {
-      search_service.run_search(std::stoi(argv[3]), std::stoi(argv[4]));
-      return 0;
-  } else if (argc == 4) {
-      search_service.run_search(std::stoi(argv[3]));
-      return 0;
-  } else {
-      show_help();
-      return 1;
-  }
+    if (std::strcmp("astar", argv[1]) == 0) {
+      if (argc == 5) {
+        search_service.run_astar(std::stoi(argv[3]), std::stoi(argv[4]));
+        return 0;
+      } else if (argc == 4) {
+        search_service.run_astar(std::stoi(argv[3]));
+        return 0;
+      } else {
+        show_help();
+        return 1;
+      }
+    }
   show_help();
   return 1;
   }

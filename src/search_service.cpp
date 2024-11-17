@@ -1,6 +1,7 @@
 #include "search_service.h"
 #include "scenario_service.h"
 #include "astar/astar_search.h"
+#include "fringe/fringe_search.h"
 #include <iostream>
 
 Searches::SearchService::SearchService() {}
@@ -9,7 +10,7 @@ Searches::SearchService::SearchService(
     const Scenarios::ScenarioService &scenario_service)
     : scenario_service(scenario_service) {};
 
-void Searches::SearchService::run_search(int index) {
+void Searches::SearchService::run_astar(int index) {
   Scenarios::Scenario scen = scenario_service.get_scenario(index);
   std::cout << scen.id << " start:" << scen.start_x << "," << scen.start_y
             << ", goal:" << scen.goal_x << "," << scen.goal_y
@@ -34,6 +35,6 @@ void Searches::SearchService::run_search(int index) {
   // }
 
 }
-void Searches::SearchService::run_search(int bucket, int index) {
-  Searches::SearchService::run_search(10 * bucket + index);
+void Searches::SearchService::run_astar(int bucket, int index) {
+  Searches::SearchService::run_astar(10 * bucket + index);
 }
