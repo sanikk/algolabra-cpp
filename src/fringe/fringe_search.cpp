@@ -27,7 +27,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
   std::deque<int> later;
 
   double flimit = CommonSearch::heuristics(startx, starty, goalx, goaly);
-  std::cout << "flimit " << flimit << std::endl;
+  // std::cout << "flimit " << flimit << std::endl;
   bool found = false;
 
   std::unordered_map<int, std::tuple<int, double, double>> cache;
@@ -36,21 +36,21 @@ void emplaced(M& map, K&& key, Args&&... args) {
   while (!found) {
     double fmin = std::numeric_limits<double>::max();
     while (!now.empty() && not found) {
-      int current = now.front();
-      now.pop_front();
+      int current = now.back();
+      now.pop_back();
     
       std::tuple<int, double, double> data = cache[current];
       int ny = current / map_size; 
       int nx = current % map_size;
 
-      std::cout << "current" << nx << "," << ny << std::endl;
+      // std::cout << "current" << nx << "," << ny << std::endl;
       if (std::get<2>(data) == -1) {
         data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + CommonSearch::heuristics(nx, ny, goalx, goaly)};
         cache[current] = data;
       }
       if (std::get<2>(data) > flimit) {
         fmin = std::min(std::get<2>(data), fmin);
-        std::cout << fmin << " was over " << flimit << std::endl;
+        // std::cout << fmin << " was over " << flimit << std::endl;
         later.push_back(current);
         continue;
       }
@@ -81,6 +81,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
       }
       std::swap(now, later);
       flimit = fmin;
+      std::cout << "flimit set to " << flimit << std::endl;
     }
   }
   return {-1.0, std::nullopt};
