@@ -43,15 +43,15 @@ void emplaced(M& map, K&& key, Args&&... args) {
       int ny = current / map_size; 
       int nx = current % map_size;
 
-      // std::cout << "current" << nx << "," << ny << std::endl;
       if (std::get<2>(data) == -1) {
         data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + CommonSearch::heuristics(nx, ny, goalx, goaly)};
         cache[current] = data;
       }
       if (std::get<2>(data) > flimit) {
         fmin = std::min(std::get<2>(data), fmin);
-        // std::cout << fmin << " was over " << flimit << std::endl;
-        later.push_back(current);
+        if (std::find(later.begin(), later.end(), current) == later.end()) {
+          later.push_back(current);
+        }
         continue;
       }
 
@@ -73,7 +73,6 @@ void emplaced(M& map, K&& key, Args&&... args) {
         now.push_back(child_index);
       }
       children_list.clear();
-      std::cout << "now size " << now.size() << ", later size " << later.size() << std::endl;
     }
     if (!found) {
       if (later.empty()) {
