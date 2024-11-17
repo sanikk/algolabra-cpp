@@ -31,6 +31,17 @@ int main(int argc, char *argv[]) {
         show_help();
         return 1;
       }
+    } else if (std::strcmp("fringe", argv[1]) == 0) {
+      if (argc == 5) {
+        search_service.run_fringe(std::stoi(argv[3]), std::stoi(argv[4]));
+        return 0;
+      } else if (argc == 4) {
+        search_service.run_fringe(std::stoi(argv[3]));
+        return 0;
+      } else {
+        show_help();
+        return 1;
+      }
     }
   show_help();
   return 1;

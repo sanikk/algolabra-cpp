@@ -4,7 +4,10 @@
 #include <tuple>
 #include <unordered_map>
 #include <iostream>
+// #include <utility>
+#include <optional>
 #include <utility>
+#include <algorithm>
 
 template<typename M, typename K, typename... Args>
 void emplaced(M& map, K&& key, Args&&... args) {
@@ -14,7 +17,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
   );
 }
 
-double fringe_search(int startx, int starty, int goalx, int goaly, std::vector<std::string> citymap) {
+ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> fringe_search(int startx, int starty, int goalx, int goaly, const std::vector<std::string>& citymap) {
   int map_size = citymap.size(); 
   
   int start = starty * map_size + startx;
@@ -24,6 +27,7 @@ double fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
   std::deque<int> later;
 
   double flimit = CommonSearch::heuristics(startx, starty, goalx, goaly);
+  std::cout << "flimit " << flimit << std::endl;
   bool found = false;
 
   std::unordered_map<int, std::tuple<int, double, double>> cache;
@@ -32,20 +36,21 @@ double fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
   while (!found) {
     double fmin = std::numeric_limits<double>::max();
     while (!now.empty() && not found) {
-      int current = now.back();
-      now.pop_back();
+      int current = now.front();
+      now.pop_front();
     
       std::tuple<int, double, double> data = cache[current];
       int ny = current / map_size; 
       int nx = current % map_size;
 
+      std::cout << "current" << nx << "," << ny << std::endl;
       if (std::get<2>(data) == -1) {
-        data = {std::get<0>(data), std::get<1>(data), CommonSearch::heuristics(nx, ny, goalx, goaly)};
+        data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + CommonSearch::heuristics(nx, ny, goalx, goaly)};
         cache[current] = data;
       }
-
       if (std::get<2>(data) > flimit) {
         fmin = std::min(std::get<2>(data), fmin);
+        std::cout << fmin << " was over " << flimit << std::endl;
         later.push_back(current);
         continue;
       }
@@ -53,10 +58,10 @@ double fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
       if (current == goal) {
         found = true;
         std::cout << "found with cost " << std::get<1>(data) << std::endl;
-        return std::get<1>(data);
+        return {std::get<1>(data), std::nullopt};
       }
-      children_list.clear();
       CommonSearch::children(nx, ny, citymap, children_list);
+      std::reverse(children_list.begin(), children_list.end());
       for (const auto& [cx, cy, cc] : children_list) {
         int child_index = cy * map_size + cx;
         double g_child = std::get<1>(data) + cc;
@@ -64,12 +69,20 @@ double fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
         if (res != cache.end() && std::get<1>(res->second) < g_child) {
           continue;
         }
-        emplaced(cache, child_index, current, g_child, -1); 
+        emplaced(cache, child_index, current, g_child, -1);
+        now.push_back(child_index);
       }
+      children_list.clear();
+      std::cout << "now size " << now.size() << ", later size " << later.size() << std::endl;
     }
     if (!found) {
+      if (later.empty()) {
+        return {-1.0, std::nullopt};
+      }
+      std::swap(now, later);
       flimit = fmin;
     }
   }
-  return -1.0;
+  return {-1.0, std::nullopt};
+
 }
