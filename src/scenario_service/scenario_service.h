@@ -1,19 +1,8 @@
 #pragma once
-#include "fileIO/filereader.h"
+#include "filereader.h"
 #include <string>
 #include <vector>
 #include <stdexcept>
-
-namespace Scenarios {
-
-struct Scenario {
-  int id;
-  int start_x;
-  int start_y;
-  int goal_x;
-  int goal_y;
-  float cost;
-};
 
 class ScenarioService {
 
@@ -31,4 +20,3 @@ private:
   std::vector<Scenario> scenarios;
 };
 
-} // namespace Scenarios

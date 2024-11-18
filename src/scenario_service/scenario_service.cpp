@@ -1,7 +1,6 @@
 #include "scenario_service.h"
 #include <iostream>
 
-namespace Scenarios {
 
 ScenarioService::ScenarioService(double diag_cost) : diag_cost(diag_cost) {}
 
@@ -28,4 +27,3 @@ Scenario ScenarioService::get_scenario(int index)
 std::vector<std::string> ScenarioService::get_map(){
   return citymap;
 }
-} // namespace Scenarios

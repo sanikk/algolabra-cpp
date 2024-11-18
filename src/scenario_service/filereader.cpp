@@ -1,17 +1,10 @@
 #include "filereader.h"
-#include "../scenario_service.h"
-#include <fstream>
 #include <iostream>
-#include <limits>
-#include <sstream>
-#include <string>
-#include <vector>
 
 std::ifstream read_file(const std::string &filename) {
   std::ifstream f(filename);
-
   if (!f) {
-    std::cerr << "error reading " << filename << '\n';
+    std::cout << "error reading " << filename << '\n';
     throw std::invalid_argument("error reading file");
   }
   return f;
@@ -41,10 +34,10 @@ std::vector<std::string> read_map(const std::string &filename,
   return citymap;
 }
 
-std::vector<Scenarios::Scenario> read_scenarios(const std::string &filename) {
+std::vector<Scenario> read_scenarios(const std::string &filename) {
   std::ifstream f = read_file(filename);
 
-  std::vector<Scenarios::Scenario> scenarios;
+  std::vector<Scenario> scenarios;
 
   std::string str;
   getline(f, str);
@@ -57,7 +50,7 @@ std::vector<Scenarios::Scenario> read_scenarios(const std::string &filename) {
       continue;
     }
     std::istringstream iss(str);
-    Scenarios::Scenario scenario;
+    Scenario scenario;
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');
     iss.ignore(std::numeric_limits<std::streamsize>::max(), '\t');

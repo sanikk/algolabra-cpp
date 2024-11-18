@@ -1,4 +1,3 @@
-#include "common_search.h"
 #include "astar_search.h"
 #include <gtest/gtest.h>
 

@@ -10,11 +10,11 @@ build: filereader.o scenario_service.o children.o heuristics.o astar_search.o fr
 	$(CXX) $(CXXFLAGS) filereader.o scenario_service.o heuristics.o children.o fringe_search.o astar_search.o search_service.o main.o -o eksekute
 
 
-filereader.o: src/fileIO/filereader.cpp src/fileIO/filereader.h
-	$(CXX) -c $(CXXFLAGS) src/fileIO/filereader.cpp
+filereader.o: src/scenario_service/filereader.cpp src/scenario_service/filereader.h
+	$(CXX) -c $(CXXFLAGS) src/scenario_service/filereader.cpp
 
-scenario_service.o: src/scenario_service.cpp src/scenario_service.h src/fileIO/filereader.h
-	$(CXX) -c $(CXXFLAGS) src/scenario_service.cpp
+scenario_service.o: src/scenario_service/scenario_service.cpp src/scenario_service/scenario_service.h src/scenario_service/filereader.h
+	$(CXX) -c $(CXXFLAGS) src/scenario_service/scenario_service.cpp
 
 children.o: src/common_search/children.cpp src/common_search/children.h src/common_search/node.h
 	$(CXX) -c $(CXXFLAGS) src/common_search/children.cpp
@@ -32,7 +32,7 @@ fringe_search.o: src/common_search/fringe_search.cpp src/common_search/fringe_se
 search_service.o: src/search_service.cpp src/search_service.h src/common_search/fringe_search.h src/common_search/astar_search.h
 	$(CXX) -c $(CXXFLAGS)  src/search_service.cpp
 
-main.o: src/main.cpp src/search_service.h src/scenario_service.h
+main.o: src/main.cpp src/search_service.h src/scenario_service/scenario_service.h
 	$(CXX) -c $(CXXFLAGS) src/main.cpp
 
 	

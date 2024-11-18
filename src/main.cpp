@@ -1,4 +1,4 @@
-#include "scenario_service.h"
+#include "scenario_service/scenario_service.h"
 #include "search_service.h"
 #include <iostream>
 #include <ostream>
@@ -18,8 +18,8 @@ void show_help() {
 
 int main(int argc, char *argv[]) {
   if (argc > 2) {
-    Scenarios::ScenarioService scenario_service(argv[2]);
-    Searches::SearchService search_service(scenario_service);
+    ScenarioService scenario_service(argv[2]);
+    SearchService search_service(scenario_service);
     if (std::strcmp("astar", argv[1]) == 0) {
       if (argc == 5) {
         search_service.run_astar(std::stoi(argv[3]), std::stoi(argv[4]));
