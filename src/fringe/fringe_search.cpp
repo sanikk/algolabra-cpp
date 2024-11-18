@@ -47,6 +47,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
         data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + CommonSearch::heuristics(nx, ny, goalx, goaly)};
         cache[current] = data;
       }
+
       if (std::get<2>(data) > flimit) {
         fmin = std::min(std::get<2>(data), fmin);
         if (std::find(later.begin(), later.end(), current) == later.end()) {
@@ -61,7 +62,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
         return {std::get<1>(data), std::nullopt};
       }
       CommonSearch::children(nx, ny, citymap, children_list);
-      std::reverse(children_list.begin(), children_list.end());
+      // std::reverse(children_list.begin(), children_list.end());
       for (const auto& [cx, cy, cc] : children_list) {
         int child_index = cy * map_size + cx;
         double g_child = std::get<1>(data) + cc;
