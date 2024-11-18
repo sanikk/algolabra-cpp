@@ -1,4 +1,6 @@
-// #include "common_search.h"
+#include "node.h"
+#include "children.h"
+#include "heuristics.h"
 #include <vector>
 #include <string>
 #include <optional>

@@ -1,5 +1,4 @@
-#include "../common_search/common_search.h"
-
+#include "astar_search.h"
 #include <queue>
 #include <vector>
 
@@ -24,15 +23,15 @@ std::vector<std::pair<int, int>> reconstruct_route(const std::pair<int, int>* ca
 std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search(int startx, int starty, int goalx, int goaly,
   const std::vector<std::string> &citymap) {
 
-  std::priority_queue<CommonSearch::Node, std::vector<CommonSearch::Node>, std::greater<CommonSearch::Node>> heap;
+  std::priority_queue<Node, std::vector<Node>, std::greater<Node>> heap;
   
-  CommonSearch::Node start_node = CommonSearch::Node(startx, starty);
-  CommonSearch::Node goal_node = CommonSearch::Node(goalx,goaly);
+  Node start_node = Node(startx, starty);
+  Node goal_node = Node(goalx,goaly);
 
-  start_node.cost = CommonSearch::heuristics(start_node, goal_node);
+  start_node.cost = heuristics(start_node, goal_node);
   heap.push(start_node);
 
-  std::vector<CommonSearch::Node> nodes;
+  std::vector<Node> nodes;
 
   int map_size = citymap.size();
   double gscores[map_size][map_size];
@@ -48,7 +47,7 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
   gscores[starty][startx] = 0.0;
 
   while (!heap.empty()) {
-    CommonSearch::Node current = heap.top(); 
+    Node current = heap.top(); 
     heap.pop();
     // std::cout << "current: " << current.x << "," << current.y << std::endl;
     if (current == goal_node) {
@@ -57,14 +56,14 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
       return {current.cost, route};
     }
 
-    CommonSearch::children(current.x, current.y, citymap, nodes);
+    children(current.x, current.y, citymap, nodes);
 
-    for (CommonSearch::Node& child : nodes) {
+    for (Node& child : nodes) {
       double tentative_gscore = gscores[current.y][current.x] + child.cost;
       if (gscores[child.y][child.x] == -1 || tentative_gscore  < gscores[child.y][child.x]) {
         gscores[child.y][child.x] = tentative_gscore; 
         camefrom[child.y * map_size + child.x] = std::make_pair(current.x, current.y);
-        child.cost = tentative_gscore + CommonSearch::heuristics(child, goal_node);
+        child.cost = tentative_gscore + heuristics(child, goal_node);
         heap.push(child);
       }
     }
