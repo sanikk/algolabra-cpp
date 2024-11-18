@@ -1,7 +1,4 @@
 #include "search_service.h"
-#include "scenario_service.h"
-#include "astar/astar_search.h"
-#include "fringe/fringe_search.h"
 #include <iostream>
 
 Searches::SearchService::SearchService() {}
@@ -35,6 +32,7 @@ void Searches::SearchService::run_astar(int index) {
   // }
 
 }
+
 void Searches::SearchService::run_astar(int bucket, int index) {
   Searches::SearchService::run_astar(10 * bucket + index);
 }

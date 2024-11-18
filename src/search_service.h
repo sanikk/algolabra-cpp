@@ -1,5 +1,7 @@
 #pragma once
 #include "scenario_service.h"
+#include "common_search/astar_search.h"
+#include "common_search/fringe_search.h"
 
 namespace Searches {
 
