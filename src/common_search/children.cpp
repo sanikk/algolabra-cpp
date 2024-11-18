@@ -1,22 +1,4 @@
-#include "common_search.h"
-#include <cmath>
-#include <string>
-#include <vector>
-#include <array>
-
-namespace CommonSearch {
-
-double heuristics(int nodex, int nodey, int goalx, int goaly) {
-  double abs_dx = abs(nodex - goalx);
-  double abs_dy = abs(nodey - goaly);
-  if (abs_dx < abs_dy)
-    return static_cast<double>(abs_dx + abs_dy + DIFF * abs_dx);
-  return static_cast<double>(abs_dx + abs_dy + DIFF * abs_dy);
-}
-
-double heuristics(Node node, Node goal) {
-  return heuristics(node.x, node.y, goal.x, goal.y);
-}
+#include "children.h"
 
 void children(int x, int y, const std::vector<std::string>& citymap, std::vector<Node>& node_list) {
   int map_size = citymap.size();
@@ -28,7 +10,7 @@ void children(int x, int y, const std::vector<std::string>& citymap, std::vector
       continue;
     }
     if (i % 2 == 0) {
-      node_list.push_back(Node(cost, nx, ny));
+      node_list.push_back(Node(nx, ny, cost));
     } else {
       int dx1 = x + std::get<0>(neighbor_offsets[i-1]);
       int dy1 = y + std::get<1>(neighbor_offsets[i-1]);
@@ -40,7 +22,7 @@ void children(int x, int y, const std::vector<std::string>& citymap, std::vector
       if (dx2 < 0 || dx2 >= map_size || dy2 < 0 || dy2 >= map_size || citymap[dy2][dx2] != '.') {
         continue;
       }
-      node_list.push_back(Node(cost, nx, ny));
+      node_list.push_back(Node(nx, ny, cost));
     }
   }
 }
@@ -66,12 +48,11 @@ void children(int x, int y, const std::vector<std::string>& citymap, std::vector
         continue;
       }
     }
-
     node_list.emplace_back(nx, ny, cost);  
   }
 }
+
 void children(Node node, const std::vector<std::string>& citymap, std::vector<Node>& node_list) {
   children(node.x, node.y, citymap, node_list);
 }
 
-}// namespace

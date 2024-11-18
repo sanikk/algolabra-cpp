@@ -2,6 +2,7 @@
 #include "fileIO/filereader.h"
 #include <string>
 #include <vector>
+#include <stdexcept>
 
 namespace Scenarios {
 

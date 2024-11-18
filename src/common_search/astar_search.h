@@ -1,7 +1,10 @@
-// #include "common_search.h"
+#include "children.h"
+#include "heuristics.h"
 #include <vector>
 #include <string>
 #include <optional>
+
+#include <queue>
 
 int get_one();
 

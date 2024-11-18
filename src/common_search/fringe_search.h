@@ -1,6 +1,10 @@
+#include "heuristics.h"
+#include "children.h"
+#include <queue>
 #include <string>
 #include <vector>
 #include <optional>
+#include <algorithm>
 
  
 std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> fringe_search(int startx, \
