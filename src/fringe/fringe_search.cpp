@@ -62,7 +62,6 @@ void emplaced(M& map, K&& key, Args&&... args) {
         return {std::get<1>(data), std::nullopt};
       }
       CommonSearch::children(nx, ny, citymap, children_list);
-      // std::reverse(children_list.begin(), children_list.end());
       for (const auto& [cx, cy, cc] : children_list) {
         int child_index = cy * map_size + cx;
         double g_child = std::get<1>(data) + cc;

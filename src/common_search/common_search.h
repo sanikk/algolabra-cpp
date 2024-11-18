@@ -17,12 +17,10 @@ namespace CommonSearch {
     Node(int i_x, int i_y) : x(i_x), y(i_y) {}
     Node() {}
 
-    bool operator==(const Node& other) const {
-          return x == other.x && y == other.y;
-      }
-    friend bool operator<(const Node& l, const Node& r) {return l.cost < r.cost;}
-    friend bool operator>(const Node& l, const Node& r) {return l.cost > r.cost;}
-    };
+    friend bool operator==(const Node& l, const Node& r) { return l.x==r.x && l.y == r.y; }
+    friend bool operator<(const Node& l, const Node& r) { return l.cost < r.cost; }
+    friend bool operator>(const Node& l, const Node& r) { return l.cost > r.cost; }
+  };
 
 
   double heuristics(int nodex, int nodey, int goalx, int goaly);
