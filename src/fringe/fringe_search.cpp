@@ -18,6 +18,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
 }
 
  std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> fringe_search(int startx, int starty, int goalx, int goaly, const std::vector<std::string>& citymap) {
+  // TODO: at least scenarios 1336, 1337, 162 give wrong answers. mabbe visualize?
   int map_size = citymap.size(); 
   
   int start = starty * map_size + startx;

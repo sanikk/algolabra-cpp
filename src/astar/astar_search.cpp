@@ -32,9 +32,10 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
   start_node.cost = CommonSearch::heuristics(start_node, goal_node);
   heap.push(start_node);
 
+  std::vector<CommonSearch::Node> nodes;
+
   int map_size = citymap.size();
   double gscores[map_size][map_size];
-  // std::vector<std::vector<double>> g_scores;
   std::pair<int, int>* camefrom = new std::pair<int, int>[map_size * map_size];
   std::pair<int,int> nullpair{-1,-1};
 
@@ -56,7 +57,6 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
       return {current.cost, route};
     }
 
-    std::vector<CommonSearch::Node> nodes;
     CommonSearch::children(current.x, current.y, citymap, nodes);
 
     for (CommonSearch::Node& child : nodes) {
@@ -68,6 +68,7 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
         heap.push(child);
       }
     }
+    nodes.clear();
   }
   std::cout << "path not found" << std::endl;
   return {-1.0, std::nullopt};

@@ -13,7 +13,8 @@ namespace CommonSearch {
     double cost;
     int x, y;
 
-    Node(double i_cost, int i_x, int i_y) : cost(i_cost), x(i_x), y(i_y) {}
+    // Node(double i_cost, int i_x, int i_y) : cost(i_cost), x(i_x), y(i_y) {}
+    Node(int i_x, int i_y, double i_cost) : x(i_x), y(i_y), cost(i_cost) {}
     Node(int i_x, int i_y) : x(i_x), y(i_y) {}
     Node() {}
 
