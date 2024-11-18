@@ -1,5 +1,5 @@
-#include "children.h"
-#include "heuristics.h"
+#include "common/children.h"
+#include "common/heuristics.h"
 #include <vector>
 #include <string>
 #include <optional>

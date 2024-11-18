@@ -16,20 +16,19 @@ filereader.o: src/scenario_service/filereader.cpp src/scenario_service/filereade
 scenario_service.o: src/scenario_service/scenario_service.cpp src/scenario_service/scenario_service.h src/scenario_service/filereader.h
 	$(CXX) -c $(CXXFLAGS) src/scenario_service/scenario_service.cpp
 
-children.o: src/common_search/children.cpp src/common_search/children.h src/common_search/node.h
-	$(CXX) -c $(CXXFLAGS) src/common_search/children.cpp
+children.o: src/searches/common/children.cpp src/searches/common/children.h
+	$(CXX) -c $(CXXFLAGS) src/searches/common/children.cpp
 
-heuristics.o: src/common_search/heuristics.cpp src/common_search/heuristics.h src/common_search/node.h
-	$(CXX) -c $(CXXFLAGS) src/common_search/heuristics.cpp
+heuristics.o: src/searches/common/heuristics.cpp src/searches/common/heuristics.h
+	$(CXX) -c $(CXXFLAGS) src/searches/common/heuristics.cpp
 
-astar_search.o: src/common_search/astar_search.cpp src/common_search/astar_search.h src/common_search/children.h src/common_search/heuristics.h
-	$(CXX) -c $(CXXFLAGS) src/common_search/astar_search.cpp
+astar_search.o: src/searches/astar_search.cpp src/searches/astar_search.h src/searches/common/children.h src/searches/common/heuristics.h
+	$(CXX) -c $(CXXFLAGS) src/searches/astar_search.cpp
 
-fringe_search.o: src/common_search/fringe_search.cpp src/common_search/fringe_search.h src/common_search/children.h src/common_search/heuristics.h
-	$(CXX) -c $(CXXFLAGS) src/common_search/fringe_search.cpp
+fringe_search.o: src/searches/fringe_search.cpp src/searches/fringe_search.h src/searches/common/children.h src/searches/common/heuristics.h
+	$(CXX) -c $(CXXFLAGS) src/searches/fringe_search.cpp
 
-
-search_service.o: src/search_service.cpp src/search_service.h src/common_search/fringe_search.h src/common_search/astar_search.h
+search_service.o: src/search_service.cpp src/search_service.h src/searches/fringe_search.h src/searches/astar_search.h
 	$(CXX) -c $(CXXFLAGS)  src/search_service.cpp
 
 main.o: src/main.cpp src/search_service.h src/scenario_service/scenario_service.h
