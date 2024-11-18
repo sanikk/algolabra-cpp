@@ -1,8 +1,5 @@
 #include "scenario_service.h"
-#include "fileIO/filereader.h"
 #include <iostream>
-#include <stdexcept>
-#include <string>
 
 namespace Scenarios {
 
@@ -21,14 +18,12 @@ Scenario ScenarioService::get_scenario(int bucket, int index) {
 }
 
 Scenario ScenarioService::get_scenario(int index)
-
 {
   if (index < 0 || index >= scenarios.size()) {
     throw std::invalid_argument("invalid scenario number.");
   }
   return scenarios[index];
 }
-
 
 std::vector<std::string> ScenarioService::get_map(){
   return citymap;
