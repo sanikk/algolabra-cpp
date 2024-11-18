@@ -1,13 +1,5 @@
-#include "../common_search/common_search.h"
-#include <deque>
-#include <limits>
-#include <tuple>
-#include <unordered_map>
+#include "fringe_search.h"
 #include <iostream>
-// #include <utility>
-#include <optional>
-#include <utility>
-#include <algorithm>
 
 template<typename M, typename K, typename... Args>
 void emplaced(M& map, K&& key, Args&&... args) {
@@ -27,7 +19,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
   std::deque<int> now = {start};
   std::deque<int> later;
 
-  double flimit = CommonSearch::heuristics(startx, starty, goalx, goaly);
+  double flimit = heuristics(startx, starty, goalx, goaly);
   // std::cout << "flimit " << flimit << std::endl;
   bool found = false;
 
@@ -45,7 +37,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
       int nx = current % map_size;
 
       if (std::get<2>(data) == -1) {
-        data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + CommonSearch::heuristics(nx, ny, goalx, goaly)};
+        data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + heuristics(nx, ny, goalx, goaly)};
         cache[current] = data;
       }
 
@@ -62,7 +54,7 @@ void emplaced(M& map, K&& key, Args&&... args) {
         std::cout << "found with cost " << std::get<1>(data) << std::endl;
         return {std::get<1>(data), std::nullopt};
       }
-      CommonSearch::children(nx, ny, citymap, children_list);
+      children(nx, ny, citymap, children_list);
       for (const auto& [cx, cy, cc] : children_list) {
         int child_index = cy * map_size + cx;
         double g_child = std::get<1>(data) + cc;
