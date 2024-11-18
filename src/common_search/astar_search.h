@@ -1,4 +1,3 @@
-#include "node.h"
 #include "children.h"
 #include "heuristics.h"
 #include <vector>
