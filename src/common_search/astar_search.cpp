@@ -1,10 +1,5 @@
 #include "astar_search.h"
-#include <queue>
-#include <vector>
-
-#include <string>
 #include <iostream>
-#include <optional>
  
 int get_one() {
   return 1;

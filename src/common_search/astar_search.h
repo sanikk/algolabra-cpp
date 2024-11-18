@@ -5,6 +5,8 @@
 #include <string>
 #include <optional>
 
+#include <queue>
+
 int get_one();
 
 std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search(int startx, int starty, int goalx, int goaly,
