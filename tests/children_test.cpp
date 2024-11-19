@@ -1,6 +1,4 @@
-
-#include "node.h"
-#include "children.h"
+#include "searches_common.h"
 #include <gtest/gtest.h>
 #include <vector>
 #include <string>
