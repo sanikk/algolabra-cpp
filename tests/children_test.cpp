@@ -1,23 +1,23 @@
 #include "searches_common.h"
-#include "gtest/gtest.h"
 #include <gtest/gtest.h>
 #include <vector>
 #include <string>
 
 namespace {
 
-
-std::vector<std::tuple<int, int, double>> vec2{
-    {1, 0, 1.0},
-    {0, 0, DIAG},
-    {0, 1, 1.0},
-    {0, 2, DIAG},
-    {1, 2, 1.0},
-    {2, 2, DIAG},
-    {2, 1, 1.0},
-    {2, 0, DIAG}
-  };
-
+std::vector<std::tuple<int, int, double>> bools_to_vec(std::string mask) {
+  std::vector<std::tuple<int, int, double>> vec2{
+      {1, 0, 1.0},
+      {0, 0, DIAG},
+      {0, 1, 1.0},
+      {0, 2, DIAG},
+      {1, 2, 1.0},
+      {2, 2, DIAG},
+      {2, 1, 1.0},
+      {2, 0, DIAG}
+      };
+  }
+std::vector<std::tuple<int, int, double>> returnable;
 
 
 
