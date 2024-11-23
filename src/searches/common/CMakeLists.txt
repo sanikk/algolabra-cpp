@@ -1,6 +1,5 @@
-add_library(search_common
+add_library(searches_common STATIC
     children.cpp
     heuristics.cpp
 )
-
-target_include_directories(search_common PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(searches_common PUBLIC ${CMAKE_SOURCE_DIR})

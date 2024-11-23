@@ -6,3 +6,7 @@ add_subdirectory(src/searches/)
 add_subdirectory(src)
 add_executable(eksekutable src/main.cpp)
 target_link_libraries(eksekutable PRIVATE scenario_service search_service)
+
+enable_testing()
+add_subdirectory(tests)
+
