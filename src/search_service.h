@@ -12,6 +12,9 @@ public:
   void run_astar(int bucket, int index);
   void run_fringe(int index);
   void run_fringe(int bucket, int index);
+  void astar_full_run();
+  void fringe_full_run();
+  int full_comparison_run();
 private:
   ScenarioService scenario_service;
 };

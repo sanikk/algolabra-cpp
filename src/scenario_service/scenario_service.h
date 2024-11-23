@@ -12,7 +12,7 @@ public:
   Scenario get_scenario(int index);
   Scenario get_scenario(int bucket, int index);
   std::vector<std::string> get_map();
-
+  std::vector<Scenario> get_all_scenarios();
 private:
   std::string filename{""};
   double diag_cost;

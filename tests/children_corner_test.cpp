@@ -134,12 +134,6 @@ TEST(children_with_nodes, narrow_alley_EW) {
   }
 }
 
-
-
-
-
-
-
 /*
 TEST(children_with_nodes, narrow_alley_EW2) {
   std::vector<ChildrenTestCase> testcases = {
@@ -196,7 +190,4 @@ TEST(children_with_nodes, three_blocked_corners) {
     EXPECT_EQ(node_list, vec_for(tc.bools));
   }
 }
-
-
-
- //namespace
+//namespace
