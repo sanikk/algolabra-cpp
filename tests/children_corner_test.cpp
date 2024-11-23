@@ -95,3 +95,108 @@ TEST(children_with_nodes, alley_between_blocked_corners) {
     EXPECT_EQ(node_list, vec_for(tc.bools));
   }
 }
+
+TEST(children_with_nodes, narrow_alley_NS) {
+  std::vector<ChildrenTestCase> testcases = {
+    { { "#.#","#.#","#.#"}, "10001000" },
+    { { "..#","#.#","#.#"}, "10001000" },
+    { { "#..","#.#","#.#"}, "10001000" },
+    { { "#.#","..#","#.#"}, "10101000" },
+    { { "#.#","#..","#.#"}, "10001010" },
+    { { "#.#","#.#","..#"}, "10001000" },
+    { { "#.#","#.#","#.."}, "10001000" },
+  };
+  std::vector<std::tuple<int, int, double>> node_list;
+  for (ChildrenTestCase tc : testcases) {
+    node_list.clear();
+    children(1,1, tc.map_input, node_list);
+    EXPECT_EQ(node_list, vec_for(tc.bools));
+  }
+}
+
+TEST(children_with_nodes, narrow_alley_EW) {
+
+  std::vector<ChildrenTestCase> testcases = {
+
+    { { "###","...","###"}, "00100010" },
+    { { ".##","...","###"}, "00100010" },
+    { { "#.#","...","###"}, "10100010" },
+    { { "##.","...","###"}, "00100010" },
+    { { "###","...",".##"}, "00100010" },
+    { { "###","...","#.#"}, "00101010" },
+    { { "###","...","##."}, "00100010" },
+  };
+  std::vector<std::tuple<int, int, double>> node_list;
+  for (ChildrenTestCase tc : testcases) {
+    node_list.clear();
+    children(1,1, tc.map_input, node_list);
+    EXPECT_EQ(node_list, vec_for(tc.bools));
+  }
+}
+
+
+
+
+
+
+
+/*
+TEST(children_with_nodes, narrow_alley_EW2) {
+  std::vector<ChildrenTestCase> testcases = {
+    { { "#.#","#.#","#.#"}, "11111111" },
+
+    
+    { { "..#","...","..#"}, "11111111" },
+    { { "###","...","###"}, "11111111" },
+    { { "...","...","..."}, "11111111" },
+    { { "...","...","..."}, "11111111" },
+    { { "...","...","..."}, "11111111" }
+  };
+
+  std::vector<std::tuple<int, int, double>> node_list;
+  for (ChildrenTestCase tc : testcases) {
+    node_list.clear();
+    children(1,1, tc.map_input, node_list);
+    EXPECT_EQ(node_list, vec_for(tc.bools));
+  }
+}
+
+TEST(children_with_nodes, narrow_alley_NS1) {
+  std::vector<ChildrenTestCase> testcases = {
+    { { "#.#","#.#","#.#"}, "11111111" },
+
+    
+    { { "..#","...","..#"}, "11111111" },
+    { { "###","...","###"}, "11111111" },
+    { { "...","...","..."}, "11111111" },
+    { { "...","...","..."}, "11111111" },
+    { { "...","...","..."}, "11111111" }
+  };
+
+  std::vector<std::tuple<int, int, double>> node_list;
+  for (ChildrenTestCase tc : testcases) {
+    node_list.clear();
+    children(1,1, tc.map_input, node_list);
+    EXPECT_EQ(node_list, vec_for(tc.bools));
+  }
+}
+*/
+
+TEST(children_with_nodes, three_blocked_corners) {
+  std::vector<ChildrenTestCase> testcases = {
+    { { "#.#","...","..#"}, "10111010" },
+    { { "#..","...","#.#"}, "10101011" },
+    { { "#.#","...","#.."}, "10101110" },
+    { { "..#","...","#.#"}, "11101010" }
+  };
+  std::vector<std::tuple<int, int, double>> node_list;
+  for (ChildrenTestCase tc : testcases) {
+    node_list.clear();
+    children(1,1, tc.map_input, node_list);
+    EXPECT_EQ(node_list, vec_for(tc.bools));
+  }
+}
+
+
+
+ //namespace
