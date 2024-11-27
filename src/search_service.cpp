@@ -24,8 +24,8 @@ void print_route(std::vector<std::pair<int, int>> route) {
   }
 }
 
-void print_route(std::vector<int> route) {
-
+void print_route(std::vector<int> route, int map_size) {
+  print_route(pair_route(route, map_size));
 }
 
 void SearchService::run_astar(int index) {
@@ -47,7 +47,7 @@ void SearchService::run_fringe(int index) {
 
   if (retval.found) {
     std::cout << retval.cost << std::endl;
-
+    print_route(retval.route);
   }
 
 }
@@ -59,15 +59,15 @@ void SearchService::run_fringe(int bucket, int index) {
 const double EPSILON = 0.0001;
 
 int SearchService::full_comparison_run() {
-  std::vector<Scenario> scenarios = scenario_service.get_all_scenarios();
-  for (Scenario scenario : scenarios) {
+  //std::vector<Scenario> scenarios = scenario_service.get_all_scenarios();
+  //for (Scenario scenario : scenarios) {
     // std::tuple<double, std::optional<std::vector<std::pair<int, int>>>>
-    std::cout << scenario.cost << std::endl;
-    std::cout << "astar" << std::endl;
+    //std::cout << scenario.cost << std::endl;
+    //std::cout << "astar" << std::endl;
     // auto [astar_cost, astar_routeOpt] = astar_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
-    std::cout << "fringe" << std::endl;
+    // std::cout << "fringe" << std::endl;
     // auto [fringe_cost, fringe_routeOpt] = fringe_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
-    double fringe_cost = fringe_search_unopt(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
+    //double fringe_cost = fringe_search_unopt(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
     // if (fabs(astar_cost - scenario.cost) > EPSILON) {
     //   std::cout << "astar cost " << astar_cost << " is not correct, " << scenario.cost << std::endl;
     //   return 1;
@@ -79,7 +79,7 @@ int SearchService::full_comparison_run() {
       // }
     //   return 1;
     
-  }
+  
   return 0;
 }
 
@@ -91,8 +91,8 @@ void SearchService::fringe_full_run() {
 }
 
 void SearchService::fringe_unopt(int scenario_id) {
-  Scenario scen = scenario_service.get_scenario(scenario_id);
-  std::cout << scen << std::endl;
-  fringe_search_unopt(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
+  //Scenario scen = scenario_service.get_scenario(scenario_id);
+  //std::cout << scen << std::endl;
+  //fringe_search_unopt(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
 }
 
