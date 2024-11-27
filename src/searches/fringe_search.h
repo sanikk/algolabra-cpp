@@ -1,4 +1,3 @@
-// #include "common/retval.h"
 #include "common/searches_common.h"
 #include <string>
 #include <unordered_map>

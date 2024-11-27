@@ -19,4 +19,5 @@ public:
   void fringe_unopt(int scenario_id);
 private:
   ScenarioService scenario_service;
+  Scenario load_scenario(int index);
 };

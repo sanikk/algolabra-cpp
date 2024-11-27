@@ -16,8 +16,7 @@ std::vector<std::pair<int, int>> reconstruct_route(const std::pair<int, int>* ca
   return route;
 }
 
-std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search(int startx, int starty, int goalx, int goaly,
-  const std::vector<std::string> &citymap) {
+RetVal astar_search(int startx, int starty, int goalx, int goaly, const std::vector<std::string> &citymap) {
 
   std::priority_queue<Node, std::vector<Node>, std::greater<Node>> heap;
   
@@ -50,7 +49,8 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
       std::cout << "goal found with cost " << current.cost << std::endl;
       auto route = reconstruct_route(camefrom, std::make_pair(startx, starty), std::make_pair(goalx, goaly), map_size);
       // std::reverse(route.begin(), route.end());
-      return {current.cost, route};
+      return RetVal(current.cost, route);
+      // {current.cost, route};
     }
 
     children(current.x, current.y, citymap, nodes);
@@ -67,6 +67,7 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
     nodes.clear();
   }
   std::cout << "path not found" << std::endl;
-  return {-1.0, std::nullopt};
+  // return {-1.0, std::nullopt};
+  return RetVal();
 
 }
