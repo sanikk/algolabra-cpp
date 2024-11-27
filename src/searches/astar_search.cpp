@@ -1,6 +1,5 @@
 #include "astar_search.h"
 #include <iostream>
-#include <algorithm>
  
 int get_one() {
   return 1;

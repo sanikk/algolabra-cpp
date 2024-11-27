@@ -17,23 +17,24 @@ Scenario SearchService::load_scenario(int index) {
   return scen;
 }
 
+
+void print_route(std::vector<std::pair<int, int>> route) {
+  for (std::pair<int, int> pari   : route) {
+    std::cout << pari.first << "," << pari.second << std::endl;
+  }
+}
+
+void print_route(std::vector<int> route) {
+
+}
+
 void SearchService::run_astar(int index) {
   Scenario scen = load_scenario(index);
   RetVal retval = astar_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
   if (retval.found) {
     std::cout << retval.cost << std::endl;
+    print_route(retval.route);
   }
-}
-
-
-void print_route(std::vector<std::pair<int, int>> route) {
-
-
-
-}
-
-void print_route(std::vector<int> route) {
-
 }
 
 void SearchService::run_astar(int bucket, int index) {
