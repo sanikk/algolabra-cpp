@@ -1,95 +1,100 @@
 #include "fringe_search.h"
+#include <iomanip>
 #include <iostream>
 
-template<typename M, typename K, typename... Args>
-void emplaced(M& map, K&& key, Args&&... args) {
-  map.emplace(std::piecewise_construct,
-    std::forward_as_tuple(std::forward<K>(key)),
-    std::forward_as_tuple(std::forward<Args>(args)...)
-  );
+int xy2int(int x, int y, int map_size) {
+  return y*map_size + x;
 }
 
- std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> fringe_search(int startx, int starty, int goalx, int goaly, const std::vector<std::string>& citymap) {
-  // TODO: at least scenarios 1336, 1337, 162 give wrong answers. mabbe visualize?
-  int map_size = citymap.size();
+std::pair<int, int> int2xy(int index, int map_size) {
+  int x = index % map_size;
+  int y = index / map_size;
+  return std::make_pair(x,y);
+}
 
-  const double EPSILON = 0.00001;
-  
-  int start = starty * map_size + startx;
-  int goal = goaly * map_size + goalx;
+RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<std::string> citymap) {
 
-  std::deque<int> now = {start};
-  std::deque<int> later;
+    // Invoking Knuth
+    // Premature optimization is the root of all evil.
 
-  double start_f = heuristics(startx, starty, goalx, goaly);
-  // std::cout << "flimit " << flimit << std::endl;
-  bool found = false;
-
-  // parent, cost_here, f_score
-  std::unordered_map<int, std::tuple<int, double, double>> cache;
-  std::vector<std::tuple<int, int, double>> children_list;
-  emplaced(cache, start, -1, 0.0, start_f);
-  double flimit = start_f + EPSILON;
-  while (!found) {
-    double fmin = std::numeric_limits<double>::max();
-    while (!now.empty() && not found) {
-      int current = now.back();
-      now.pop_back();
+    // INIT
+    int map_size = citymap.size();
+    int start_index = xy2int(startx, starty, map_size);
+    int goal_index = xy2int(goalx, goaly, map_size);
+    std::deque<int> now = {start_index};
+    std::deque<int> later = {};
     
-      std::tuple<int, double, double> data = cache[current];
-      int ny = current / map_size; 
-      int nx = current % map_size;
+    std::unordered_map<int, std::tuple<double, int>> cache;
+    //                              cost_here, parent
+    cache[xy2int(startx, starty, map_size)] = {0.0, -1};
+      
+    bool found = false;
+    double epsilon = 0.00000002;
+    double flimit = heuristics(startx, starty, goalx, goaly) + epsilon;
 
-      if (std::get<2>(data) == -1) {
-        data = {std::get<0>(data), std::get<1>(data), std::get<1>(data) + heuristics(nx, ny, goalx, goaly)};
-        cache[current] = data;
-      }
+    // std::cout << "initial flimit " << std::setprecision(17) << flimit << std::endl;
 
-      if (std::get<2>(data) > flimit) {
-        fmin = std::min(std::get<2>(data), fmin);
-        if (std::find(later.begin(), later.end(), current) == later.end()) {
-          later.push_back(current);
-          }
-        continue;
-      }
 
-      if (current == goal) {
-        found = true;
-        std::cout << "found with cost " << std::get<1>(data) << std::endl;
-        // Reconstruct route
-        std::pair<int, int> here = {nx, ny};
-        std::vector<std::pair<int, int>> route = {{nx, ny}};
-        while (current != start) {
-          current = std::get<0>(cache[current]);
-          ny = current / map_size;
-          nx = current % map_size;
-          route.push_back({nx, ny});
+    while (!found && !now.empty()) 
+    {
+        double fscore_min = 100000;
+
+        while(!now.empty()) 
+            
+        {
+            int current = now.back();
+            now.pop_back();
+            const auto [g_score, parent] = cache[current];
+            const auto[nx, ny] = int2xy(current, map_size);
+
+            // std::cout << nx << "," << ny << std::endl;
+
+            double fscore = g_score + heuristics(nx, ny, goalx, goaly);
+
+            if (fscore > flimit) {
+                fscore_min = std::min(fscore, fscore_min);
+                later.push_back(current);
+                continue;
+            }
+
+            if (current == goal_index) {
+                std::cout << std::setprecision(10) << "found goal! cost " << g_score << std::endl;
+                found = true;
+                break;
+            }
+
+            std::vector<std::tuple<int, int, double>> succ_list;
+            children(nx, ny, citymap, succ_list);
+            for (const auto [succ_x, succ_y, succ_cost] : succ_list) {
+
+                double succ_gscore = g_score + succ_cost;
+                int succ_index = xy2int(succ_x, succ_y, map_size);
+
+                // ::cout << "kid "<< succ_x << "," << succ_y << std::endl;
+
+                if (cache.find(succ_index) != cache.end()) {
+                    const auto[succ_gcache, cache_parent] = cache[succ_index];
+                    if (succ_gscore >= succ_gcache) {
+                      continue;
+                    };
+                };
+                now.push_back(succ_index);
+                cache[succ_index] = std::make_pair(succ_gscore, current);
+            }; // for child
+        } // while current
+        if (!found) {
+            if (!later.empty()) {
+                flimit = fscore_min + epsilon;
+                // std::cout << "flimit set to " << std::setprecision(17) << flimit << std::endl;
+                std::swap(later, now);
+            } else {
+                std::cout << "not found" << std::endl;
+                return RetVal(found);
+            }
         }
-        // std::reverse(route.begin(), route.end());
-        return {std::get<1>(data), route};
-      }
-      children(nx, ny, citymap, children_list);
-      for (const auto& [cx, cy, cc] : children_list) {
-        int child_index = cy * map_size + cx;
-        double g_child = std::get<1>(data) + cc;
-        auto res = cache.find(child_index);
-        if (res != cache.end() && std::get<1>(res->second) < g_child) {
-          continue;
-        }
-        emplaced(cache, child_index, current, g_child, -1);
-        now.push_back(child_index);
-      }
-      children_list.clear();
     }
-    if (!found) {
-      if (later.empty()) {
-        return {-1.0, std::nullopt};
-      }
-      std::swap(now, later);
-      flimit = fmin + EPSILON;
-      std::cout << "flimit set to " << flimit << std::endl;
-    }
-  }
-  return {-1.0, std::nullopt};
+  
+    // std::cout << "not found" << std::endl;
+    return RetVal(found);
 
 }

@@ -1,5 +1,6 @@
 #include "astar_search.h"
 #include <iostream>
+#include <algorithm>
  
 int get_one() {
   return 1;
@@ -48,6 +49,7 @@ std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search
     if (current == goal_node) {
       std::cout << "goal found with cost " << current.cost << std::endl;
       auto route = reconstruct_route(camefrom, std::make_pair(startx, starty), std::make_pair(goalx, goaly), map_size);
+      // std::reverse(route.begin(), route.end());
       return {current.cost, route};
     }
 

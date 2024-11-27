@@ -32,7 +32,7 @@ double fringe_search_unopt(int startx, int starty, int goalx, int goaly, std::ve
     double epsilon = 0.00000002;
     double flimit = heuristics(startx, starty, goalx, goaly) + epsilon;
 
-    std::cout << "initial flimit " << std::setprecision(17) << flimit << std::endl;
+    // std::cout << "initial flimit " << std::setprecision(17) << flimit << std::endl;
 
 
     while (!found && !now.empty()) 
@@ -47,7 +47,7 @@ double fringe_search_unopt(int startx, int starty, int goalx, int goaly, std::ve
             const auto [g_score, parent] = cache[current];
             const auto[nx, ny] = int2xy(current, map_size);
 
-            std::cout << nx << "," << ny << std::endl;
+            // std::cout << nx << "," << ny << std::endl;
 
             double fscore = g_score + heuristics(nx, ny, goalx, goaly);
 
@@ -58,7 +58,7 @@ double fringe_search_unopt(int startx, int starty, int goalx, int goaly, std::ve
             }
 
             if (current == goal_index) {
-                std::cout << "found goal! cost " << g_score << std::endl;
+                std::cout << std::setprecision(10) << "found goal! cost " << g_score << std::endl;
                 found = true;
                 break;
             }
@@ -85,7 +85,7 @@ double fringe_search_unopt(int startx, int starty, int goalx, int goaly, std::ve
         if (!found) {
             if (!later.empty()) {
                 flimit = fscore_min + epsilon;
-                std::cout << "flimit set to " << std::setprecision(17) << flimit << std::endl;
+                // std::cout << "flimit set to " << std::setprecision(17) << flimit << std::endl;
                 std::swap(later, now);
             } else {
                 std::cout << "not found" << std::endl;

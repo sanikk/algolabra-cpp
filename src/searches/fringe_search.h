@@ -1,11 +1,10 @@
-#include "common/heuristics.h"
-#include "common/children.h"
-#include <queue>
+// #include "common/retval.h"
+#include "common/searches_common.h"
 #include <string>
+#include <unordered_map>
 #include <vector>
-#include <optional>
-#include <algorithm>
+#include <queue>
 
- 
-std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> fringe_search(int startx, \
-                int starty, int goalx, int goaly, const std::vector<std::string>& citymap); 
+
+
+RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<std::string> citymap); 

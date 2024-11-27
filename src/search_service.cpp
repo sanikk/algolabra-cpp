@@ -38,21 +38,15 @@ void SearchService::run_astar(int index) {
 }
 
 
-void print_route(std::vector<std::pair<int, int>> astar_route, std::vector<std::pair<int, int>> fringe_route) {
-  // std::reverse(astar_route.begin(), astar_route.end());
-  // std::reverse(fringe_route.begin(), fringe_route.end());
-  std::cout << "astar" << "\tfringe" << std::endl;
-  for (int i=0; i < fmax(astar_route.size(), fringe_route.size()); i++) {
-    if(astar_route.size() > i) {
-      std::cout << astar_route[i].first << "," << astar_route[i].second;
-    }
-    if(fringe_route.size() > i) {
-      std::cout << "\t" << fringe_route[i].first << "," << fringe_route[i].second;
-    }
-    std::cout << std::endl;
-  }
+void print_route(std::vector<std::pair<int, int>> route) {
+
+
+
 }
 
+void print_route(std::vector<int> route) {
+
+}
 
 void SearchService::run_astar(int bucket, int index) {
   SearchService::run_astar(10 * bucket + index);
@@ -64,15 +58,13 @@ void SearchService::run_fringe(int index) {
             << ", goal:" << scen.goal_x << "," << scen.goal_y
             << ", cost:" << scen.cost << std::endl;
   const auto& citymap = scenario_service.get_map();
-  auto [cost, routeOpt] = fringe_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, citymap);
-  std::cout << cost << std::endl;
-  if (routeOpt) {
-    const auto route = routeOpt.value();
-    // std::reverse(route.begin(), route.end());
-    for (auto [x, y] : route) {
-      std::cout << x << "," << y << ": " << citymap[y][x] << std::endl;
-    }
+  RetVal retval = fringe_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, citymap);
+
+  if (retval.found) {
+    std::cout << retval.cost << std::endl;
+
   }
+
 }
 
 void SearchService::run_fringe(int bucket, int index) {
