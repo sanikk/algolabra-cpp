@@ -1,5 +1,8 @@
 #pragma  once
+#include "tools.h"
 #include <vector>
+
+
 struct RetVal {
   bool found;
   double cost;
