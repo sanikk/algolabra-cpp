@@ -4,6 +4,7 @@
 #include <ostream>
 #include <string>
 #include <cstring>
+#include <tuple>
 
 
 void show_help() {
@@ -18,45 +19,74 @@ void show_help() {
   std::cout << "file is also needed." << std::endl;
 }
 
+int getCommand(const std::string& cmd) {
+  if (cmd == "astar") return 1;
+  if (cmd == "fringe") return 2;
+  if (cmd == "fullcomp") return 3;
+  if (cmd == "frunge") return 5;
+  if (cmd == "children") return 9;
+  return -1;
+}
+
 int main(int argc, char *argv[]) {
   if (argc > 2) {
     ScenarioService scenario_service(argv[2]);
     SearchService search_service(scenario_service);
-    if (std::strcmp("all", argv[1]) == 0) {
-      return search_service.full_comparison_run();
-    }
-    if (std::strcmp("astar", argv[1]) == 0) {
-      if (argc == 3 && std::strcmp("all", argv[3]) == 0) {
-        search_service.astar_full_run();
-        return 0;
-      }
-      if (argc == 5) {
-        search_service.run_astar(std::stoi(argv[3]), std::stoi(argv[4]));
-        return 0;
-      } else if (argc == 4) {
-        search_service.run_astar(std::stoi(argv[3]));
-        return 0;
-      } else {
+
+    switch (getCommand(argv[1])) {
+      case 1: // astar
+        if (argc == 3 && std::strcmp("all", argv[3]) == 0) {
+          search_service.astar_full_run();
+          return 0;
+        }
+        if (argc == 5) {
+          search_service.run_astar(std::stoi(argv[3]), std::stoi(argv[4]));
+          return 0;
+        }
+        if (argc == 4) {
+          search_service.run_astar(std::stoi(argv[3]));
+          return 0;
+        
         show_help();
         return 1;
-      }
-    } else if (std::strcmp("fringe", argv[1]) == 0) {
-      if (argc == 3 && std::strcmp("all", argv[3]) == 0) {
-        search_service.fringe_full_run();
-        return 0;
-      }
-      if (argc == 5) {
-        search_service.run_fringe(std::stoi(argv[3]), std::stoi(argv[4]));
-        return 0;
-      } else if (argc == 4) {
-        search_service.run_fringe(std::stoi(argv[3]));
-        return 0;
-      } else {
+      
+      case 2: // fringe
+
+        if (argc == 3 && std::strcmp("all", argv[3]) == 0) {
+          search_service.fringe_full_run();
+          return 0;
+        }
+        if (argc == 5) {
+          search_service.run_fringe(std::stoi(argv[3]), std::stoi(argv[4]));
+          return 0;
+        } 
+        if (argc == 4) {
+          search_service.run_fringe(std::stoi(argv[3]));
+          return 0;
+        }
         show_help();
         return 1;
-      }
+        }
+      case 3: // full comparison
+        search_service.full_comparison_run();
+        return 0;
+
+      case 5: // unoptimized fringe
+        search_service.fringe_unopt(std::stoi(argv[3]));
+        return 1; 
+      case 9: // children
+        {
+        std::vector<std::tuple<int, int, double>> node_list;
+        children(std::stoi(argv[3]), std::stoi(argv[4]), scenario_service.get_map(), node_list);
+        for (auto tup : node_list) {
+          std::cout << std::get<0>(tup) << "," << std::get<1>(tup) << "," << std::get<2>(tup) << std::endl;
+        }
+        return 0; 
+        }
+      default:
+          show_help();
+          return 1;
+    
     }
-  show_help();
-  return 1;
   }
 }

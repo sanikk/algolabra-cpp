@@ -2,6 +2,7 @@
 #include "scenario_service/scenario_service.h"
 #include "searches/astar_search.h"
 #include "searches/fringe_search.h"
+#include "searches/fringe_unopt.h"
 
 
 class SearchService {
@@ -15,6 +16,7 @@ public:
   void astar_full_run();
   void fringe_full_run();
   int full_comparison_run();
+  void fringe_unopt(int scenario_id);
 private:
   ScenarioService scenario_service;
 };
