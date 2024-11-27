@@ -8,6 +8,10 @@ int xy2int(std::pair<int, int> pari, int map_size) {
   return xy2int(pari.first, pari.second, map_size);
 }
 
+int xy2int(Node node, int map_size) {
+  return node.y * map_size + node.x;
+}
+
 std::pair<int, int> int2xy(int index, int map_size) {
   int x = index % map_size;
   int y = index / map_size;

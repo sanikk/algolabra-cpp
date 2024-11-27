@@ -30,7 +30,8 @@ void print_route(std::vector<int> route, int map_size) {
 
 void SearchService::run_astar(int index) {
   Scenario scen = load_scenario(index);
-  RetVal retval = astar_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
+  const std::vector<std::string>& citymap = scenario_service.get_map();
+  RetVal retval = astar_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, citymap);
   if (retval.found) {
     std::cout << retval.cost << std::endl;
     print_route(retval.route);
@@ -43,7 +44,8 @@ void SearchService::run_astar(int bucket, int index) {
 
 void SearchService::run_fringe(int index) {
   Scenario scen = load_scenario(index);
-  RetVal retval = fringe_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
+  const std::vector<std::string>& citymap = scenario_service.get_map();
+  RetVal retval = fringe_search(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, citymap);
 
   if (retval.found) {
     std::cout << retval.cost << std::endl;
