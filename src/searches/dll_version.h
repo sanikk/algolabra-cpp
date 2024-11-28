@@ -1,4 +1,4 @@
-namespace LinkedMap {
+
 
 struct Link {
   int value;
@@ -13,4 +13,4 @@ struct Link {
   
 // methods
 };
-}
+

@@ -26,7 +26,7 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
     // std::cout << "initial flimit " << std::setprecision(17) << flimit << std::endl;
 
 
-    while (!found && !now.empty()) 
+    while (true) 
     {
         double fscore_min = 100000;
 
@@ -79,19 +79,15 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
                 cache[succ_index] = std::make_pair(succ_gscore, current);
             }; // for child
         } // while current
-        if (!found) {
-            if (!later.empty()) {
-                flimit = fscore_min + epsilon;
+        if (!later.empty()) {
+            flimit = fscore_min + epsilon;
                 // std::cout << "flimit set to " << std::setprecision(17) << flimit << std::endl;
-                std::swap(later, now);
-            } else {
-                std::cout << "not found" << std::endl;
-                return RetVal(found);
-            }
+            std::swap(later, now);
+        } else {
+            std::cout << "not found" << std::endl;
+            return RetVal();
         }
+        
     }
-  
     // std::cout << "not found" << std::endl;
-    return RetVal(found);
-
 }

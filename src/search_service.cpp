@@ -1,9 +1,5 @@
 #include "search_service.h"
-// #include "common/searches_common.h"
-#include <cmath>
 #include <iostream>
-#include <utility>
-#include <vector>
 
 SearchService::SearchService() {}
 
@@ -51,7 +47,6 @@ void SearchService::run_fringe(int index) {
     std::cout << retval.cost << std::endl;
     print_route(retval.route);
   }
-
 }
 
 void SearchService::run_fringe(int bucket, int index) {
@@ -61,30 +56,17 @@ void SearchService::run_fringe(int bucket, int index) {
 const double EPSILON = 0.0001;
 
 int SearchService::full_comparison_run() {
-  //std::vector<Scenario> scenarios = scenario_service.get_all_scenarios();
-  //for (Scenario scenario : scenarios) {
-    // std::tuple<double, std::optional<std::vector<std::pair<int, int>>>>
-    //std::cout << scenario.cost << std::endl;
-    //std::cout << "astar" << std::endl;
-    // auto [astar_cost, astar_routeOpt] = astar_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
-    // std::cout << "fringe" << std::endl;
-    // auto [fringe_cost, fringe_routeOpt] = fringe_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
-    //double fringe_cost = fringe_search_unopt(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, scenario_service.get_map());
-    // if (fabs(astar_cost - scenario.cost) > EPSILON) {
-    //   std::cout << "astar cost " << astar_cost << " is not correct, " << scenario.cost << std::endl;
-    //   return 1;
-    // }
-    // if (fabs(fringe_cost - astar_cost) > EPSILON) {
-     //  std::cout << "astar: " << astar_cost << ", fringe: " << fringe_cost << " while scenario says " << scenario.cost << std::endl;
-      // if (astar_routeOpt && fringe_routeOpt) {
-      //  print_route(astar_routeOpt.value(), fringe_routeOpt.value());
-      // }
-    //   return 1;
-    
-  
+  std::vector<Scenario> scenarios = scenario_service.get_all_scenarios();
+  const std::vector<std::string>& citymap = scenario_service.get_map();
+  for (Scenario scenario : scenarios) {
+    RetVal retAstar = astar_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, citymap);
+    RetVal retFringe = fringe_search(scenario.start_x, scenario.start_y, scenario.goal_x, scenario.goal_y, citymap);
+    if (retAstar.cost != retFringe.cost) {
+      std::cout << retAstar.cost << " != " << retFringe.cost << std::endl; 
+    }
+  }     
   return 0;
-}
-
+} 
 void SearchService::astar_full_run() {
 
 }
