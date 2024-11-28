@@ -1,9 +1,18 @@
-#include "fringe_search.h"
+#include "fringe_unopt.h"
 #include <iomanip>
 #include <iostream>
 
+int xy2int(int x, int y, int map_size) {
+  return y*map_size + x;
+}
 
-RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<std::string> citymap) {
+std::pair<int, int> int2xy(int index, int map_size) {
+  int x = index % map_size;
+  int y = index / map_size;
+  return std::make_pair(x,y);
+}
+
+double fringe_search_unopt(int startx, int starty, int goalx, int goaly, std::vector<std::string> citymap) {
 
     // Invoking Knuth
     // Premature optimization is the root of all evil.
@@ -26,7 +35,7 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
     // std::cout << "initial flimit " << std::setprecision(17) << flimit << std::endl;
 
 
-    while (true) 
+    while (!found && !now.empty()) 
     {
         double fscore_min = 100000;
 
@@ -51,13 +60,7 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
             if (current == goal_index) {
                 std::cout << std::setprecision(10) << "found goal! cost " << g_score << std::endl;
                 found = true;
-                std::vector<int> route;
-                while (current != -1) {
-                    route.push_back(current);
-                    current = std::get<1>(cache[current]);
-                }
-                return RetVal(g_score, route, map_size);
-                // break;
+                break;
             }
 
             std::vector<std::tuple<int, int, double>> succ_list;
@@ -79,15 +82,19 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
                 cache[succ_index] = std::make_pair(succ_gscore, current);
             }; // for child
         } // while current
-        if (!later.empty()) {
-            flimit = fscore_min + epsilon;
+        if (!found) {
+            if (!later.empty()) {
+                flimit = fscore_min + epsilon;
                 // std::cout << "flimit set to " << std::setprecision(17) << flimit << std::endl;
-            std::swap(later, now);
-        } else {
-            std::cout << "not found" << std::endl;
-            return RetVal();
+                std::swap(later, now);
+            } else {
+                std::cout << "not found" << std::endl;
+                return -1.0;
+            }
         }
-        
     }
-    // std::cout << "not found" << std::endl;
+  
+    std::cout << "not found" << std::endl;
+    return -1.0;
+
 }

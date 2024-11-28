@@ -2,11 +2,11 @@
 #include <iostream>
 
 
-ScenarioService::ScenarioService(double diag_cost) : diag_cost(diag_cost) {}
+ScenarioService::ScenarioService(){};
 
-ScenarioService::ScenarioService(std::string filename, double diag_cost)
+ScenarioService::ScenarioService(std::string filename)
     : filename(filename), scenarios(read_scenarios(filename + ".scen")),
-      citymap(read_map(filename, 4)), diag_cost(diag_cost) {}
+      citymap(read_map(filename, 4)) {}
 
 Scenario ScenarioService::get_scenario(int bucket, int index) {
   if (bucket < 0 || index < 0) {
@@ -26,4 +26,8 @@ Scenario ScenarioService::get_scenario(int index)
 
 std::vector<std::string> ScenarioService::get_map(){
   return citymap;
+}
+
+std::vector<Scenario> ScenarioService::get_all_scenarios() {
+  return scenarios;
 }

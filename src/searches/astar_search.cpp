@@ -1,70 +1,66 @@
 #include "astar_search.h"
 #include <iostream>
- 
-int get_one() {
-  return 1;
+
+
+void reconstruct_route() {
 }
 
-std::vector<std::pair<int, int>> reconstruct_route(const std::pair<int, int>* came_from, const std::pair<int, int> start, const std::pair<int, int> goal, const int map_size) {
-  std::vector<std::pair<int, int>> route{goal};
-  std::pair<int, int> current = goal;
-  while (current != start) {
-    current = came_from[current.second * map_size + current.first];
-    route.push_back(current);
-  }
-  return route;
-}
 
-std::tuple<double, std::optional<std::vector<std::pair<int, int>>>> astar_search(int startx, int starty, int goalx, int goaly,
-  const std::vector<std::string> &citymap) {
+RetVal astar_search(int startx, int starty, int goalx, int goaly, const std::vector<std::string> &citymap) {
+
+  Node start_node{startx, starty};
+  Node goal_node{goalx, goaly};
+  start_node.cost = heuristics(start_node, goal_node);
 
   std::priority_queue<Node, std::vector<Node>, std::greater<Node>> heap;
-  
-  Node start_node = Node(startx, starty);
-  Node goal_node = Node(goalx,goaly);
-
-  start_node.cost = heuristics(start_node, goal_node);
   heap.push(start_node);
-
-  std::vector<Node> nodes;
-
-  int map_size = citymap.size();
-  double gscores[map_size][map_size];
-  std::pair<int, int>* camefrom = new std::pair<int, int>[map_size * map_size];
-  std::pair<int,int> nullpair{-1,-1};
-
-  for (int i=0;i < map_size;i++) {
-    for (int j=0;j < map_size;j++) {
-      gscores[i][j] = -1.0;
-      camefrom[i * map_size + j] = nullpair;
-    }
-  }
-  gscores[starty][startx] = 0.0;
+  
+  int map_size = citymap.size(); 
+  int start_index = xy2int(start_node, map_size);
+  std::unordered_map<int, double> gscores;
+  gscores[start_index] = 0.0;
+  std::unordered_map<int, int> camefrom;
+  camefrom[start_index] = -1;
 
   while (!heap.empty()) {
-    Node current = heap.top(); 
+    Node current = heap.top();
     heap.pop();
-    // std::cout << "current: " << current.x << "," << current.y << std::endl;
+    
+    int current_index = xy2int(current, map_size);
+    double current_gscore = gscores[current_index];
+    // std::cout << "current gscore " << current_gscore << std::endl;
+
+    // std::cout << "current is " << current.x << "," << current.y << " with estimated cost: " << current.cost << "and gscores "<< current_gscore << std::endl;
+
     if (current == goal_node) {
-      std::cout << "goal found with cost " << current.cost << std::endl;
-      auto route = reconstruct_route(camefrom, std::make_pair(startx, starty), std::make_pair(goalx, goaly), map_size);
-      return {current.cost, route};
+      std::cout << "goal found with cost " << current_gscore << std::endl;
+      std::vector<int> route;
+      while (current_index != -1) {
+        route.push_back(current_index);
+        current_index = camefrom[current_index];
+      }
+      std::reverse(route.begin(), route.end());
+      return RetVal(current_gscore, route, map_size);
     }
 
-    children(current.x, current.y, citymap, nodes);
+    std::vector<Node> children_list;
+    children(current, citymap, children_list);
 
-    for (Node& child : nodes) {
-      double tentative_gscore = gscores[current.y][current.x] + child.cost;
-      if (gscores[child.y][child.x] == -1 || tentative_gscore  < gscores[child.y][child.x]) {
-        gscores[child.y][child.x] = tentative_gscore; 
-        camefrom[child.y * map_size + child.x] = std::make_pair(current.x, current.y);
+    for (auto child: children_list) {
+      // std::cout << "child " << child.x << "," << child.y << "with cost " << child.cost << std::endl;
+      double tentative_gscore = current_gscore + child.cost;
+      int child_index = xy2int(child, map_size);
+      
+      if (gscores.find(child_index) == gscores.end() || tentative_gscore < gscores[child_index]) {
+        
+      
+        gscores[child_index] = tentative_gscore;
+        camefrom[child_index] = current_index;
         child.cost = tentative_gscore + heuristics(child, goal_node);
         heap.push(child);
       }
     }
-    nodes.clear();
   }
-  std::cout << "path not found" << std::endl;
-  return {-1.0, std::nullopt};
-
+  std::cout << "not found" << std::endl;
+  return RetVal();
 }
