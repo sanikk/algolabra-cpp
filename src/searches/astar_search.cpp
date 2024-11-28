@@ -1,4 +1,5 @@
 #include "astar_search.h"
+#include <algorithm>
 #include <iostream>
 
 
@@ -16,10 +17,11 @@ RetVal astar_search(int startx, int starty, int goalx, int goaly, const std::vec
   heap.push(start_node);
   
   int map_size = citymap.size();
+  int start_index = xy2int(start_node, map_size);
   std::unordered_map<int, double> gscores;
-  gscores[xy2int(start_node, map_size)] = 0.0;
+  gscores[start_index] = 0.0;
   std::unordered_map<int, int> camefrom;
-  camefrom[xy2int(start_node, map_size)] = -1;
+  camefrom[start_index] = -1;
 
   while (!heap.empty()) {
     Node current = heap.top();
@@ -34,6 +36,11 @@ RetVal astar_search(int startx, int starty, int goalx, int goaly, const std::vec
     if (current == goal_node) {
       std::cout << "goal found with cost " << current_gscore << std::endl;
       std::vector<int> route;
+      while (current_index != -1) {
+        route.push_back(current_index);
+        current_index = camefrom[current_index];
+      }
+      std::reverse(route.begin(), route.end());
       return RetVal(current_gscore, route, map_size);
     }
 
