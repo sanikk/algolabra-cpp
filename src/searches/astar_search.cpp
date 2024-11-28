@@ -1,5 +1,4 @@
 #include "astar_search.h"
-#include <algorithm>
 #include <iostream>
 
 
@@ -16,7 +15,7 @@ RetVal astar_search(int startx, int starty, int goalx, int goaly, const std::vec
   std::priority_queue<Node, std::vector<Node>, std::greater<Node>> heap;
   heap.push(start_node);
   
-  int map_size = citymap.size();
+  int map_size = citymap.size(); 
   int start_index = xy2int(start_node, map_size);
   std::unordered_map<int, double> gscores;
   gscores[start_index] = 0.0;

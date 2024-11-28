@@ -51,7 +51,13 @@ RetVal fringe_search(int startx, int starty, int goalx, int goaly, std::vector<s
             if (current == goal_index) {
                 std::cout << std::setprecision(10) << "found goal! cost " << g_score << std::endl;
                 found = true;
-                break;
+                std::vector<int> route;
+                while (current != -1) {
+                    route.push_back(current);
+                    current = std::get<1>(cache[current]);
+                }
+                return RetVal(g_score, route, map_size);
+                // break;
             }
 
             std::vector<std::tuple<int, int, double>> succ_list;
