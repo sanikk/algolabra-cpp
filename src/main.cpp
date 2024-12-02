@@ -24,6 +24,7 @@ int getCommand(const std::string& cmd) {
   if (cmd == "fringe") return 2;
   if (cmd == "fullcomp") return 3;
   if (cmd == "frunge") return 5;
+  if (cmd == "dll") return 6;
   if (cmd == "children") return 9;
   return -1;
 }
@@ -73,7 +74,11 @@ int main(int argc, char *argv[]) {
 
       case 5: // unoptimized fringe
         search_service.fringe_unopt(std::stoi(argv[3]));
-        return 1; 
+        return 1;
+
+      case 6:
+        search_service.fringe_dll(std::stoi(argv[3]));
+        return 0;
       case 9: // children
         {
         std::vector<std::tuple<int, int, double>> node_list;

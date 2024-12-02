@@ -40,3 +40,10 @@ void Fringe::remove(int value) {
     links.erase(value);
 }
 
+bool Fringe::empty() {
+    if (head == nullptr) {
+        return true;
+    }
+    return false;
+}
+

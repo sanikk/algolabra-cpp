@@ -4,6 +4,7 @@
 #include "searches/astar_search.h"
 #include "searches/fringe_search.h"
 #include "searches/fringe_unopt.h"
+#include "searches/fringe_with_dll.h"
 
 
 class SearchService {
@@ -18,6 +19,7 @@ public:
   void fringe_full_run();
   int full_comparison_run();
   void fringe_unopt(int scenario_id);
+  void fringe_dll(int scenario_id);
 private:
   ScenarioService scenario_service;
   Scenario load_scenario(int index);

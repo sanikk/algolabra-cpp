@@ -80,3 +80,7 @@ void SearchService::fringe_unopt(int scenario_id) {
   //fringe_search_unopt(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
 }
 
+void SearchService::fringe_dll(int scenario_id) {
+  Scenario scen = load_scenario(scenario_id);
+  fringe_with_dll(scen.start_x, scen.start_y, scen.goal_x, scen.goal_y, scenario_service.get_map());
+}

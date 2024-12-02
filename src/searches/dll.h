@@ -1,3 +1,4 @@
+#pragma once
 #include <unordered_map>
 struct Link {
   int value;
@@ -35,6 +36,7 @@ public:
   Fringe(int value);
   void add(int value);
   void remove(int value);
+  bool empty();
 
   WrapperIterator begin() const {return WrapperIterator(head);}
   WrapperIterator end() const { return WrapperIterator(nullptr);}
