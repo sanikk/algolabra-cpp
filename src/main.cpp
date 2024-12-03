@@ -9,6 +9,7 @@
 
 void show_help() {
   std::cout << "Little search prog" << std::endl;
+  std::cout << "This is very out of date now. check source for now." << std::endl;
   std::cout << "<prog> <search> <map_file> <scenario_identifier>" << std::endl;
   std::cout << "<prog> astar \"map_file\" bucket index" << std::endl;
   std::cout << "<prog> fringe \"map_file\" bucket index" << std::endl;
@@ -69,11 +70,11 @@ int main(int argc, char *argv[]) {
         return 1;
         }
       case 3: // full comparison
-        search_service.full_comparison_run();
-        return 0;
+        // search_service.full_comparison_run();
+        return 1;
 
       case 5: // unoptimized fringe
-        search_service.fringe_unopt(std::stoi(argv[3]));
+        // search_service.fringe_unopt(std::stoi(argv[3]));
         return 1;
 
       case 6:
